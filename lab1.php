@@ -2,20 +2,20 @@
     include_once 'lab1connect.php';
     include_once 'user.php';
 
-    $con = new db;
+    $con = new DBconnector;
 
-    if(isset($_POST['btn-save']))
+    if($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $first_name = $_POST['first_name'];
-        $last_name = $_POST['last_name'];
-        $city_name = $_POST['city_name'];
+        $first_name = $_REQUEST['first_name'];
+        $last_name = $_REQUEST['last_name'];
+        $city_name = $_REQUEST['city_name'];
 
 
 
 
-        $user = new user ($first_name, $last_name, $city_name);
+        $user = new User ($first_name, $last_name, $city_name);
         $res = $user->save();
-
+        
         if($res)
         {
             echo "successful";
@@ -33,7 +33,7 @@
     <title>Title goes</title>
 </head>
 <body>
-    <form method="POST">
+    <form method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
         <table align="center">
             <tr>
                 <td><input type="text" name="first_name"  required placeholder="First Name"/></td>
@@ -46,7 +46,7 @@
             </tr>
             <tr>
                 <td>
-                    <button type="submit" name="btn-save"><strong>SAVE</strong></button>
+                    <input type="submit">
                 </td>
             </tr>
         </table>

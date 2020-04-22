@@ -1,7 +1,7 @@
 <?php
 include 'crud.php';
 include_once 'lab1connect.php';
-class user implements Crud{
+class User implements Crud{
     private $user_id;
     private $first_name;
     private $last_name;
@@ -9,11 +9,11 @@ class user implements Crud{
 
 
     //initialize values
-    function _construct($first_name, $last_name, $city_name)
+    function __construct($first_name, $last_name, $city_name)
     {
-        $this->first_name = $first_name;
-        $this->last_name = $last_name;
-        $this->city_name = $city_name;
+        $this->first_name=$first_name;
+        $this->last_name=$last_name;
+        $this->city_name=$city_name;
     }
 
     public function setUserId($user_id)//setter
@@ -29,14 +29,13 @@ class user implements Crud{
     
      public function save()
         {
-            $first_name = $this->first_name;
-            $last_name = $this->last_name;
-            $city_name = $this->city_name;
-            
-            $res = "INSERT INTO user (first_name, last_name, city_name) VALUES ('$first_name', '$last_name', '$city_name')";
+            $db = new DBconnector();
+            $conn = $db->getConn();
+            $fn = $this->first_name;
+            $ln = $this->last_name;
+            $city = $this->city_name;
+            $res = mysqli_query($conn,"insert into user(first_name,last_name,user_city) VALUES('$fn','$ln','$city')");
             return $res;
-            
-            
         }
     
 
