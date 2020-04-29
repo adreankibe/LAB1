@@ -11,17 +11,12 @@
         $city_name = $_REQUEST['city_name'];
         $username = $_REQUEST['username'];
         $password = $_REQUEST['password'];
-        $user = new User ($first_name, $last_name, $city_name, $username, $password);
+        $user = new User ();
 
 
-        if(!$user->validateForm())
-        {
-            $user->createFormErrorSessions();
-            header("Refresh:0");
-            die();
-        }
+        
 
-        $res = $user->save();
+        $res = $user->save($first_name, $last_name, $city_name, $username, $password);
         
         if($res)
         {

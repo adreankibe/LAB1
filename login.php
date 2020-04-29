@@ -1,33 +1,26 @@
 <?php
-
+session_start();
     include_once 'lab1connect.php';
     include_once 'user.php';
 
-
-    $con = new DBconnector;
+    $user = new User();
+    $conn = new DBconnector;
     if(isset($_POST['btn-login']))
     {
-        
+       
         $username = $_POST['username'];
         $password = $_POST['password'];
-        //$user = new User ();
-        $user = new User ($first_name='', $last_name='', $city_name='', $username, $password);
-
-
-        $instance = $user->create();
-        $instance->setPassword($password);
-        $instance->setUsername($username);
-
-        if($instance->isPasswordCorrect())
+        $login = $user->isPasswordCorrect($username, $password);
+        if($login)
         {
-            $instance->login();
-            $con->closeDatabase();
-            $instance->createUserSession();
+            header("location:private_page.php");
         }else{
-            $con->closeDatabase();
-            header("Location:login.php");
+            echo "error could not log in";
         }
+       
 
+        
+       
     }
     ?>
 
@@ -38,7 +31,7 @@
             <link rel="stylesheet" type="text/css" href="validate.css">
         </head>
         <body>
-            
+           
         <form method="POST" name="login" id="login" action="<?=$_SERVER['PHP_SELF']?>">
             <table>
                 <tr>
@@ -53,6 +46,7 @@
 
                 <tr> 
                     <td><button type="submit" name="btn-login"><strong>LOGIN</strong></td>
+                    <a href="lab1.php">register</a>
                 </tr>
             
             </table>

@@ -2,11 +2,18 @@
 
 
 session_start();
-if(!isset($_SESSION['username']))
+include_once 'user.php';
+$user = new User();
+$id = $_SESSION['id'];
+if(!$user->createUserSession())
 {
-    header("Location:login.php");
+    header("location:login.php");
 }
-
+if (isset($_GET['q']))
+{
+    $user->logout();
+    header("location:login.php");
+}
 ?>
 
 <html>
@@ -17,7 +24,10 @@ if(!isset($_SESSION['username']))
     </head>
 
     <body>
+    <h1>Hello<br><?php $user->getUser($id);?></h1>
         <p>this is a private page</p>
-        <p><a href="logout.php">logout</a></p>
+        
+        <div id="header"><a href="private_page.php?q=logout">LOGOUT</a></div>
+
     </body>
 </html>
